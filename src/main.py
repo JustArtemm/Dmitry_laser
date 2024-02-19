@@ -23,15 +23,7 @@ def process(image):
 
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     
-    red_mask = image[:,:,0] #== image[:,:,0].max()
-    # red_mask = red_mask.astype(np.float32)*255
-
-    # red_mask = cv2.cvtColor(red_mask, cv2.COLOR_GRAY2BGR)
-
-    # red_mask = cv2.GaussianBlur(red_mask, (31,31),0)
-    # attention = np.zeros_like(red_mask)
-    # attention[150:550,300:1100] = 1
-    # red_mask = red_mask * attention
+    red_mask = image[:,:,0] 
     ret, red_mask = cv2.threshold(red_mask,254,255,cv2.THRESH_BINARY)
     Contours = cv2.findContours(red_mask.astype(np.uint8), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     contour = Contours[0][0].reshape(-1,2)
@@ -53,8 +45,8 @@ def make_transform(image, init_pts, h,w, ppu):
     dist = cv2.warpPerspective(image, matrix, dsize=(ppu*h,ppu*w))
     return dist.transpose(1,0,2)
 
-# cap = cv2.VideoCapture('/Users/artem/Desktop/Dmitry_laser/data/real_cam_ruler')
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('/Users/artem/Desktop/Dmitry_laser/data/cam1.mp4')
+# cap = cv2.VideoCap ture(0)
 
 # fig, ax = plt.subplots(1,1)
 
@@ -65,10 +57,7 @@ while(cap.isOpened()):
   # Capture frame-by-frame
   ret, frame = cap.read()
   if ret == True:
-    # recolored = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-    # cv2.imwrite( 'data/image.png',frame)
-    # Display the resulting frame
-    # cv2.imshow('image', frame)
+
     frame = make_transform(frame, init_pts, h, w,ppu)
     cv2.imshow('image', frame)
     try:
@@ -85,7 +74,6 @@ while(cap.isOpened()):
         plt.plot(points_narr[-100:,0],points_narr[-100:,1])
         plt.xlim(0,ppu*w)
         plt.ylim(0,ppu*h)
-        # plt.scatter(center[0],center[1], s=1)
         
         
         plt.pause(0.01)
