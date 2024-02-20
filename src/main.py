@@ -51,26 +51,43 @@ def make_transform(image, init_pts, h,w, ppu):
         
 
     ]).astype(np.float32)
+    
+
+    new_h, new_w, _ = image.shape
+    init_pts = init_pts * np.array([new_w/orig_w, new_h/orig_w])
+    # dst_pts = dst_pts * np.array([new_w/orig_w, new_h/orig_w])
+
     init_pts = init_pts.astype(np.float32)
+    # dst_pts = dst_pts.astype(np.float32)
+
+    # print('init: ', init_pts)
+    # print('dst: ', dst_pts)
+
     matrix = cv2.getPerspectiveTransform(init_pts, dst_pts)
     dist = cv2.warpPerspective(image, matrix, dsize=(ppu*h,ppu*w))
     return dist.transpose(1,0,2)
 
-cap = cv2.VideoCapture('/Users/artem/Desktop/Dmitry_laser/data/cam1.mp4')
-# cap = cv2.VideoCap ture(0)
+# cap = cv2.VideoCapture('/Users/artem/Desktop/Dmitry_laser/data/cam1.mp4')
+cap = cv2.VideoCapture(0)
 
 # fig, ax = plt.subplots(1,1)
 
 points = []
+
+orig_h, orig_w = (720, 1280)
+
+
+
 
 
 while(cap.isOpened()):
   # Capture frame-by-frame
   ret, frame = cap.read()
   if ret == True:
-
-    frame = make_transform(frame, init_pts, h, w,ppu)
+    
+    frame = make_transform(frame, init_pts, h, w,ppu )
     cv2.imshow('image', frame)
+    
     try:
         mask, center = process(frame)
     except:
