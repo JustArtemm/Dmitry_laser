@@ -12,19 +12,19 @@ import matplotlib.pyplot as plt
 # Углы белого листа на изображении с камеры в порядке:
 # Левый верхний, правый верхний, левый нижний, правый нижний
 
-init_pts = np.array([
-    [402, 210],
-    [1002, 223],
-    [318, 615 ],
-    [1150, 613]
-]).astype(np.float32) # FOR REAL TIME
-
 # init_pts = np.array([
-#     [300,350],
-#     [900, 350],
-#     [0, 600],
-#     [1100,650]
-# ]).astype(np.float32) # FOR FILE
+#     [402, 210],
+#     [1002, 223],
+#     [318, 615 ],
+#     [1150, 613]
+# ]).astype(np.float32) # FOR REAL TIME
+
+init_pts = np.array([
+    [300,350],
+    [900, 350],
+    [0, 600],
+    [1100,650]
+]).astype(np.float32) # FOR FILE
 h = 31
 w = 37
 ppu = 10
